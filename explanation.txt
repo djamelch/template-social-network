@@ -1,0 +1,17 @@
+Don't forget to change your namespace php artisan app:name Social
+
+We can tidy larvel up a bit. We can delete:
+App/Http/Controllers/Auth/AutController.php and PasswordController.php because we will be building these from scratch. These are useful if you are getting into an application quickly bbut we want to take it step by step.
+resouces/database/migrations/user and password.
+resources/assets/sass We are not using sass so we don't need this. If we are using sass later on the front end we can set it up again. Ass a gulpfile and all that.
+We can delete the gulpfile.js too in social/gulpfile.js too. By default it uses elixir but we don't have to use it.
+views/welcome
+If you want under views/errors you can change the 503 page too which is if the application crrashes.
+
+To create a migration use: php artisan create:migration table name.
+
+If you get this error when  logging in
+FatalThrowableError in EloquentUserProvider.php line 126:
+Fatal error: Class '\Social\User' not found
+
+Check in config/auth.php that you are using the correct route to the user.php file.
