@@ -17,11 +17,11 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->guest()) { //Checks the user is a guest
-            if ($request->ajax() || $request->wantsJson()) { //if theya are it does this ajax request ehich returns a 401 unauthorized response.
+        if (Auth::guard($guard)->guest()) {
+            if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->guest('auth.signin'); //Otherwise it will redirect to guest auth.signin
+                return redirect()->guest('auth.signin');
             }
         }
 

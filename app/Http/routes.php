@@ -29,9 +29,9 @@
 //Don't forget. As of laravel 5.2 all routes have to be stored in the middleware web to work.
 Route::group(['middleware' => ['web']], function () {
     //Home
-    Route::get('/', [ //We tell it to do this action.
-        'uses' => '\Social\Http\Controllers\HomeController@index', //Remember we are not in the controller gfile so we must give the namespace again. We cab cakk the method that we use here by adding @ and the method name.
-        'as' => 'home',  //We give this a name. We can call it anything we want
+    Route::get('/', [
+        'uses' => '\Social\Http\Controllers\HomeController@index',
+        'as' => 'home',
     ]);
 
     //Alert
@@ -42,22 +42,20 @@ Route::group(['middleware' => ['web']], function () {
 
     //Authentication
     Route::get('/signup', [ //When we have the route \signup
-        'uses' => '\Social\Http\Controllers\AuthController@getSignup', //Use this controller
-        'as' => 'auth.signup', //We are using the auth.signup as a kind of namespace so we know what we are doing.
-        'middleware' => ['guest'], //We only want to signup if the user is a guest. ie not signed in. If we look in http/Kernal.php we can see where this guest is coming from. Don't forget t update the RedirectIfAuthenticated.php file to redirect to ->route('home') instead of /
+        'uses' => '\Social\Http\Controllers\AuthController@getSignup',
+        'as' => 'auth.signup',
+        'middleware' => ['guest'],
     ]);
 
-    //This is the route for the post data. Same as above but where above gets the data and puts in the form this takes the data.
-    //The reason we don't need to change the name auth.signup is because one is get and the other is post so it's differant actions
     Route::post('/signup', [
         'uses' => '\Social\Http\Controllers\AuthController@postSignup',
         'as' => 'auth.signup',
-        'middleware' => ['guest'], //We only want to signup if the user is a guest. ie not signed in. If we look in http/Kernal.php we can see where this guest is coming from. Don't forget t update the RedirectIfAuthenticated.php file to redirect to ->route('home') instead of /
+        'middleware' => ['guest'],
     ]);
 
-    Route::get('/signin', [ //When we have the route \signup
-        'uses' => '\Social\Http\Controllers\AuthController@getSignin', //Use this controller
-        'as' => 'auth.signin', //We are using the auth.signup as a kind of namespace so we know what we are doing.
+    Route::get('/signin', [
+        'uses' => '\Social\Http\Controllers\AuthController@getSignin',
+        'as' => 'auth.signin',
         'middleware' => ['guest'],
     ]);
 
@@ -90,7 +88,6 @@ Route::group(['middleware' => ['web']], function () {
         'as' => 'profile.index',
     ]);
 
-    //Remember that the user can only update their profile if they are authenticated so make sure to add in the middleware for Auth. They wouldn't be able to do anything anyway becuase they are not signed in but it's good practice to add to each file guests are not allowed use.
     Route::get('/profile/edit', [
         'uses' => '\Social\Http\Controllers\ProfileController@getEdit',
         'as' => 'profile.edit',

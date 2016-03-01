@@ -1,13 +1,13 @@
 <?php
-namespace Social\Http\Controllers; //We need to add a namespace for every controller so we can access easily.
+namespace Social\Http\Controllers;
 
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Social\Models\User; //Remember to add teh User file so that we can use the user variable.
 use Social\Models\Status; //Remember to add status so we can use the functionality from the status.php file.
-use Illuminate\Http\Request; //Don't forget to add this as it is our request method.
+use Illuminate\Http\Request;
 
-class StatusController extends Controller{ //We create create a new class that extends from our base controller(Controller.php) so we can use it makes a referance back to that controller.
+class StatusController extends Controller{
     public function postStatus(Request $request){
         $this->validate($request, [
             'status' => 'required|max:1000',
@@ -28,23 +28,23 @@ class StatusController extends Controller{ //We create create a new class that e
         $this->validate($request, [
             "reply-{$statusId}" => 'required|max:1000',
         ], [
-            'required' => 'The reply body is required' //This gives a custom error message for required
+            'required' => 'The reply body is required' //gives a custom error message for required
         ]);
 
-        $status = Status::notReply()->find($statusId); //This gets the status that is not a reply and gets its statusId sow e can reply to it.
+        $status = Status::notReply()->find($statusId);
 
         if (!$status) {
             return redirect()->route('home');
         }
 
-        if (!Auth::user()->isFriendsWith($status->user) && Auth::user()->id !== $status->user->id) { //This just checks if the auth user is not friends with user and checks that if it is our own status then allow us to reply too.
+        if (!Auth::user()->isFriendsWith($status->user) && Auth::user()->id !== $status->user->id) {
             return redirect()->route('home');
         }
 
         $reply = Status::create([ //Creates a status
             'body' => $request->input("reply-{$statusId}"),
         ])->user()->associate(Auth::user()); //Asociates it with the Auth user. This puts the user_id set to our id.
-        $status->replies()->save($reply); //Saves our reply. In laravle save function is basically an update query.
+        $status->replies()->save($reply); //Saves our reply. I
         return redirect()->back(); //Goes back to the page we were on.
 
     }
